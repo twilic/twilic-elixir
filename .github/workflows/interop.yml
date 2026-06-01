@@ -1,0 +1,29 @@
+name: Interop
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  rust-interop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout twilic-elixir
+        uses: actions/checkout@v4
+
+      - name: Checkout twilic-rust
+        run: git clone --depth 1 https://github.com/twilic/twilic-rust.git ../twilic-rust
+
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.19"
+          otp-version: "27"
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Run bidirectional interop
+        env:
+          TWILIC_RUST_DIR: ${{ github.workspace }}/../twilic-rust
+        run: bash scripts/check-interop.sh
