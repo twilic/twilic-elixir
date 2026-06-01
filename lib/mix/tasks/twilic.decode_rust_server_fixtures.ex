@@ -6,11 +6,7 @@ defmodule Mix.Tasks.Twilic.DecodeRustServerFixtures do
   def run(_args) do
     Mix.Task.run("app.start")
 
-    input =
-      case IO.read(:stdio, :all) do
-        :eof -> ""
-        data -> data
-      end
+    input = IO.binread(:stdio, :eof)
 
     Twilic.InteropFixtures.decode_rust_server_frames(input)
   end

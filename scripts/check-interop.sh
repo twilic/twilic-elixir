@@ -13,6 +13,9 @@ if [[ -f "${CONTROL_DECODE}/Cargo.toml" ]]; then
   export TWILIC_CONTROL_STREAM_DECODE="${CONTROL_DECODE}/target/release/control_stream_decode"
 fi
 
+echo "[interop] Compiling Elixir..."
+(cd "${ROOT_DIR}" && mix compile 2>/dev/null)
+
 echo "[interop] Running Elixir interop unit tests..."
 (cd "${ROOT_DIR}" && mix test test/interop_fixtures_test.exs)
 

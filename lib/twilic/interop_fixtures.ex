@@ -94,13 +94,13 @@ defmodule Twilic.InteropFixtures do
     {enc, one_patch} = SessionEncoder.encode_patch(enc, one_change)
     out = emit_interop_frame(out, "session", "session_patch_one_change", one_patch)
 
-    out =
-      Enum.reduce(0..3, out, fn step, out ->
+    {enc, out} =
+      Enum.reduce(0..3, {enc, out}, fn step, {enc, out} ->
         iter_arr = interop_make_i64_array(100, 0)
         iter_arr = List.replace_at(iter_arr, step, Model.new_i64(20_000 + step))
         iterative = Model.new_array(iter_arr)
         {enc, bytes} = SessionEncoder.encode_patch(enc, iterative)
-        emit_interop_frame(out, "session", "session_patch_iter_#{step}", bytes)
+        {enc, emit_interop_frame(out, "session", "session_patch_iter_#{step}", bytes)}
       end)
 
     many_arr =

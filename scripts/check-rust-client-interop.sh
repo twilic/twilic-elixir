@@ -8,7 +8,7 @@ FIXTURES_FILE="$(mktemp)"
 trap 'rm -f "${FIXTURES_FILE}"' EXIT
 
 echo "[interop] Emitting Elixir server frames..."
-(cd "${ROOT_DIR}" && mix twilic.emit_rust_client_fixtures 2>/dev/null > "${FIXTURES_FILE}")
+(cd "${ROOT_DIR}" && mix twilic.emit_rust_client_fixtures --no-compile 2>/dev/null > "${FIXTURES_FILE}")
 
 echo "[interop] Decoding frames with Rust client..."
 cargo run --quiet --manifest-path "${ROOT_DIR}/scripts/rust-client-check/Cargo.toml" < "${FIXTURES_FILE}"

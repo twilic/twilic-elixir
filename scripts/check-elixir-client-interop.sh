@@ -16,6 +16,6 @@ echo "[interop] Emitting Rust server frames..."
 cargo run --quiet --manifest-path "${ROOT_DIR}/scripts/rust-server-fixtures/Cargo.toml" > "${FIXTURES_FILE}"
 
 echo "[interop] Decoding frames with Elixir client..."
-(cd "${ROOT_DIR}" && mix twilic.decode_rust_server_fixtures) < "${FIXTURES_FILE}"
+(cd "${ROOT_DIR}" && mix twilic.decode_rust_server_fixtures --no-compile) < "${FIXTURES_FILE}"
 
 echo "[interop] OK: Rust server -> Elixir client smoke test passed"
